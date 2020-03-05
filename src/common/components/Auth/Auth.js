@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import Form from "react-bootstrap/Form";
-import FormRow from 'react-bootstrap/Form'
 import FormGroup from "react-bootstrap/FormGroup";
 import Col from "react-bootstrap/Col";
 import FormLabel from "react-bootstrap/FormLabel";
@@ -9,10 +8,9 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Feedback from "react-bootstrap/Feedback";
 import "bootstrap/dist/css/bootstrap.min.css"
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
-import checkIfUserExists from "../../ajax/Login";
+import Login from "../../ajax/Login";
 
 
 export default class Auth extends Component {
@@ -46,7 +44,7 @@ export default class Auth extends Component {
                             if (value.length !== 11) {
                                 e.target.className = "is-invalid"
                             } else {
-                                let exists = checkIfUserExists(value);
+                                let exists = Login.checkIfUserExists(value);
                                 switch (this.state.status) {
                                     case "sign_in":
                                         if (exists) {
@@ -90,9 +88,38 @@ export default class Auth extends Component {
                         <Feedback type="invalid">Password is too short. Min 5 symbols.</Feedback>
                         <Feedback type="valid">Nice!</Feedback>
                     </FormGroup>
+
+
+
+
+
+
                     <Button onClick={() => {
-                        console.log(this.state.phone);
-                        console.log(this.state.password);
+                        if(this.state.status === 'sign_up')
+                        {
+                            if(Login.signUp(this.state.phone, this.state.password))
+                            {
+                                this.props.changeState("CHAT")
+                            }
+                            else
+                            {
+                                this.setState({validated: false})
+                            }
+                        }
+                        else if(this.state.status === 'sign_in')
+                        {
+                            //alert("I try to sign in");
+                            if(Login.signIn(this.state.phone, this.state.password))
+                            {
+                                //alert("My attempt is good");
+                                this.props.changeState("CHAT");
+                                //alert("I changed the state");
+
+                            }
+                            else{
+                                this.setState({validated: false})
+                            }
+                        }
                     }}>Lets go!</Button>
                 </Form>
             </Container>

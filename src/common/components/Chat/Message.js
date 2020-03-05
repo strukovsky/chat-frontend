@@ -8,7 +8,7 @@ export  default class Message extends Component{
 
     render() {
         return <Container>
-            <h1>{this.props.sender}</h1> <p>this.props.time</p>
+            <h1>{this.props.sender}</h1> <p>{this.props.time.toString()}</p>
             <p>{this.props.message}</p>
         </Container>
 

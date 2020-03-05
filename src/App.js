@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Auth from "./common/components/Auth/Auth";
+import Conversations from "./common/components/Chat/Conversations";
 
-class Clock extends Component{
+class Clock extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date : props.date
+            date: props.date
         }
     }
 
     componentDidMount() {
         this.timerID = setInterval(() =>
-           this.tick(), 1000);
+            this.tick(), 1000);
     }
 
     componentWillUnmount() {
         clearInterval(this.timerID);
     }
 
-    tick()
-    {
-        this.setState((state, props)=>({
+    tick() {
+        this.setState((state, props) => ({
             date: new Date()
         }))
     }
@@ -32,12 +32,27 @@ class Clock extends Component{
     }
 }
 
+
 class App extends Component {
-  render() {
-    return (
-        <Auth/>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = ({current: "AUTH"})
+        this.handleChangeWidget = this.handleChangeWidget.bind(this);
+    }
+
+    handleChangeWidget(currentWidget) {
+        this.setState({current: currentWidget});
+        console.log(this.state.current);
+    }
+
+    render() {
+        //alert(this.state.current);
+        if (this.state.current === "AUTH")
+            return (<Auth changeState={this.handleChangeWidget}/>);
+        else if (this.state.current === "CHAT")
+            return (<Conversations changeState={this.handleChangeWidget}/>);
+
+    }
 }
 
 export default App;

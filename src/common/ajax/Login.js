@@ -1,15 +1,28 @@
 import axios from 'axios'
 
-export default function checkIfUserExists(username)
+export default class Login
 {
-    if(username.length !== 11)
-        return false;
-   /* axios.get('localhost:8000/api/v1/user/'+username)
-        .then(function(){
-            return true;
-        })
-        .catch(function () {
+    static checkIfUserExists(username)
+    {
+        if(username.length !== 11)
             return false;
-        })*/
+        if(username === '89255258020')
+            return true;
+        return false;
+    }
+
+    static signUp(username, password)
+    {
+        return true;
+    }
+
+    static signIn(username, password)
+    {
+        if(username==='89255258020' && password==='qwerty')
+            return true;
+        return false;
+    }
+
 }
+
 
